@@ -1,141 +1,154 @@
 <template>
   <div class="container">
+    <canvas  id="canvas" style="width: 100%; height: 100%; position: absolute" postype="2d"></canvas>
     <div style="max-width: 1200px;">
       <nav-bar :left-arrow="true" >
-    <template slot="title">
-      <div style="color: #fff;font-size:25px">Igram</div>
-    </template>
-    </nav-bar>
-    <canvas  id="canvas" style="width: 100%; height: 100%; position: absolute" postype="2d"></canvas>
-    <div class="intro-container">
-      <h1>Instagram Online Downloader</h1>
-       <h2>Free Download Instagram Videos & Photos Online</h2>
-      <h3 class="intro">Free  Download Instagram photos, videos, IGTV </h3>
-      <div class="form-container">
-            <p><span>Instagram URL:</span> https://www.instagram.com/p/V2drXfoh0r/</p>
-            <div class="row" style="display:flex;">
-              <div class="input-container relative">
-                  <span class="instagram-icon">
-                    <img  class="img" src="https://static-oss.gg.net/hucheng/icon2.png">
-                  </span>
-                  <input  class="input" v-model="linkUrl" name="fileURL" id="fileURL" placeholder="Paste Instagram link..."  type="text" />
-              </div>
-              <el-button :loading=loading type="primary"  @click="buttonClick">{{button_text}}</el-button>
-            </div>
-             <p>&nbsp;</p>
-      </div>
-      <div class="img-container" >
-                <div class="img-item"   v-for="(item,index) in imgList" :key="index">
-                  <input  class="input-checkbox" type="checkbox" id="CSS" name="language" />
-                    <label for="CSS">
-                      <svg
-                        class="tick"
-                        width="100%"
-                        height="100%"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M5 13L6 14L7 15L8 16L9 17L11 15L12 14L13 13L14 12L15 11L16 10L17 9L18 8"
-                        />
-                      </svg>
-                    </label>
-                  <img :src="item" @load="imgLoadSuccess" style="width:100%;height:100%" >
+        <template slot="title">
+          <div style="color: #fff;font-size:25px">Igram</div>
+        </template>
+      </nav-bar>
+      <div class="intro-container">
+        <h1>Instagram Online Downloader</h1>
+        <h2>Free Download Instagram Videos & Photos Online</h2>
+        <h3 class="intro">Free  Download Instagram photos, videos, IGTV </h3>
+        <div class="form-container">
+              <p><span>Instagram URL:</span> https://www.instagram.com/p/V2drXfoh0r/</p>
+              <div class="row" style="display:flex;">
+                <div class="input-container relative">
+                    <span class="instagram-icon">
+                      <img  class="img" src="https://static-oss.qutoutiao.net/hucheng/icon2.png">
+                    </span>
+                    <input  class="input" v-model="linkUrl" name="fileURL" id="fileURL" placeholder="Paste Instagram link..."  type="text" />
                 </div>
-            </div>
-    </div>
-    <article class="form-container big-text" style="color:white">
-      <a id="use_insta_downloader"></a>
-      <div class="row">
-        <h3 style="font-size: 26px;font-weight: bold;">How to Download Instagram Videos / Photos</h3>
-        <p class="row-text"><strong>Note:</strong> The video or photo which you will download must be from a public Instagram account. But you still able to download videos and photos from private instagram accounts. <a href="/private.php">Just click here</a>.</p>
-        <p class="row-text"><strong>Step 1:</strong> Copy video or photo’s URL from your browser or Instagram app.</p>
-        <br>
-        <ul style="list-style: disc;
-    padding-left: 40px;">
-          <li><strong>On Instagram app:</strong>
-          <br/>
-          <p class="row-text">
-            Tap <img src="https://instadownloader.co//img/tap-ios.png" alt="get url instagram photo" /> (iOS) or <img src="https://instadownloader.co//img/tap-android.jpg" alt="copy url instagram" /> (Android) above the post and then tap <b>Copy Share URL</b>. The link will be saved to your clipboard.
-            <div style="display:flex;flex-wrap: wrap;">
-              <div  style="padding: 0">
-              <img  src="https://instadownloader.co//img/Instagram video downloader.png" class="img-responsive" alt="download instagram video online" title="download instagram video guide" width="375px">
+                <el-button :loading=loading type="primary"  @click="buttonClick">{{button_text}}</el-button>
               </div>
-              <div  style="padding: 0">
-              <img src="https://instadownloader.co//img/download instagram video.png" class="img-responsive" alt="download instagram video steps" title="download instagram video guide" width="375px">
-              </div>
-            </div>
-          </p>
-          
-            <br />
-          </li>
-          <li><strong>On PC / Mac:</strong> <br />
-            <p class="row-text">Right-click on the date of the video or photo on Instagram then click <strong>"Copy Link "</strong></p> 
-            <img src="https://instadownloader.co//img/download instagram video on desktop.png" class="img-responsive" alt="download instagram video on desktop" width="800px">
-          </li>
-        </ul>
-        <strong>Step 2:</strong> Paste URL in the above text box area.<br />
-        <strong>Step 3:</strong> Hit"<strong>Download</strong>"button.
-      </div>
-      
-    </article>
-    <article class="form-container big-text" style="color:white;margin-top: 40px;">
-      <div class="panel panel-info">
-          <div class="panel-heading" >
-              <h3 class="panel-title">Frequently Asked Questions</h3>
-          </div>
-          <div>
-              <el-collapse v-model="activeNames" @change="handleChange">
-                <el-collapse-item title="Does Instagram Video Downloader needs any money after some Downloads limit?" name="1">
-                  <div>this service is Totally Free and has no limit to download.</div>
-                </el-collapse-item>
-                <el-collapse-item title="Where my videos saved after download?" name="2">
-                  <div>
-                    <div class="panel-body">
-                      Videos usually saved under "Downloads" folder but you may use Save As Option and changed it to another one. However, you can check the download folder by following the below steps:
-                      <ul>
-                      <li><strong>Chrome:</strong>
-                      <ul>
-                      <li><strong>Windows:</strong> Press [<strong>CTRL + J</strong> ]</li>
-                      <li><strong>Mac:</strong> Press [<strong>Shift + Command + J</strong>]</li>
-                      </ul>
-                      </li>
-                      </ul>
-                      <ul>
-                      <li><strong>Firefox:</strong>
-                      <ul>
-                      <li><strong>Windows:</strong> Press [<strong>CTRL + J</strong> ]</li>
-                      <li><strong>Mac:</strong> Press [<strong>Command + J</strong>]</li>
-                      </ul>
-                      </li>
-                      </ul>
-                    </div>
+              <p>&nbsp;</p>
+              <el-collapse-transition>
+                 <div class="img-container" v-if="imgList.length>0" >
+                  <div class="img-row" v-for="(rowList,i) in imgList" :key="i">
+                    
+                    <div class="img-item"    v-for="(item,index) in rowList" :key="index">
+                    <input :id="`CSS_${index}`"  class="input-checkbox" :ref="`input_show_${i}_${index}`" type="checkbox" name="language" style="display:none"  />
+                      <label :for="`CSS_${index}`" :ref="`label_show_${i}_${index}`" style="display:none">
+                        <svg
+                          class="tick"
+                          width="100%"
+                          height="100%"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M5 13L6 14L7 15L8 16L9 17L11 15L12 14L13 13L14 12L15 11L16 10L17 9L18 8"
+                          />
+                        </svg>
+                      </label>
+                      <el-image :src="item"  :fit="'contain'" @load="showCheckbox(i,index)" >
+                        <div slot="placeholder" style="" class="image-slot">
+                          loading<span class="dot">...</span>
+                        </div>
+                      </el-image>
+                    <!-- <img :src="item" @load="imgLoadSuccess" style="width:100%;height:100%" > -->
                   </div>
-                </el-collapse-item>
-                <el-collapse-item title="Can I Save instagram live videos?" name="3">
-                  <div>You can't save instagram Live videos while streaming but you can download it after they finish streaming.</div>
-                </el-collapse-item>
-                <el-collapse-item title="Can I download Facebook videos?" name="4">
-                  <div>Sorry, now,We do not have this function</div>
-                </el-collapse-item>
-              </el-collapse>
-          </div>
-      </div>
-      
-         
-    
-    
-    </article>
-    <footer  style="margin-top: 40px;">
-      <div class="well">
-        <center>
-        <p style="text-align: center;"><strong>Instagram Video &amp; Photo Downloader online</strong>
-        <br>
-        <a href="how-to-download-instagram-videos-steps.php">How to Download Instagram Videos &amp; Photos</a> | <a href="privacy-policy.php">Privacy Policy</a> | <a href="tos.php">Terms</a> |<a href="contact.php">Contact us</a> | <a href="about.php">About</a></p>
-        </center>
+                  </div>
+               
+              </div>
+              </el-collapse-transition>
+             
         </div>
-    </footer>
+            
+      </div>
+      <article class="form-container big-text" style="color:white;margin-top:40px">
+        <a id="use_insta_downloader"></a>
+        <div class="row">
+          <h3 style="font-size: 26px;font-weight: bold;">How to Download Instagram Videos / Photos</h3>
+          <p class="row-text"><strong>Note:</strong> The video or photo which you will download must be from a public Instagram account. But you still able to download videos and photos from private instagram accounts. <a href="/private.php">Just click here</a>.</p>
+          <p class="row-text"><strong>Step 1:</strong> Copy video or photo’s URL from your browser or Instagram app.</p>
+          <br>
+          <ul style="list-style: disc;
+      padding-left: 40px;">
+            <li><strong>On Instagram app:</strong>
+            <br/>
+            <p class="row-text">
+              Tap <img src="https://instadownloader.co//img/tap-ios.png" alt="get url instagram photo" /> (iOS) or <img src="https://instadownloader.co//img/tap-android.jpg" alt="copy url instagram" /> (Android) above the post and then tap <b>Copy Share URL</b>. The link will be saved to your clipboard.
+              <div style="display:flex;flex-wrap: wrap;">
+                <div  style="padding: 0">
+                <img  src="https://instadownloader.co//img/Instagram video downloader.png" class="img-responsive" alt="download instagram video online" title="download instagram video guide" width="375px">
+                </div>
+                <div  style="padding: 0">
+                <img src="https://instadownloader.co//img/download instagram video.png" class="img-responsive" alt="download instagram video steps" title="download instagram video guide" width="375px">
+                </div>
+              </div>
+            </p>
+            
+              <br />
+            </li>
+            <li><strong>On PC / Mac:</strong> <br />
+              <p class="row-text">Right-click on the date of the video or photo on Instagram then click <strong>"Copy Link "</strong></p> 
+              <img src="https://instadownloader.co//img/download instagram video on desktop.png" class="img-responsive" alt="download instagram video on desktop" width="800px">
+            </li>
+          </ul>
+          <strong>Step 2:</strong> Paste URL in the above text box area.<br />
+          <strong>Step 3:</strong> Hit"<strong>Download</strong>"button.
+        </div>
+        
+      </article>
+      <article class="form-container big-text" style="color:white;margin-top: 40px;">
+        <div class="panel panel-info">
+            <div class="panel-heading" >
+                <h3 class="panel-title">Frequently Asked Questions</h3>
+            </div>
+            <div>
+                <el-collapse v-model="activeNames" @change="handleChange">
+                  <el-collapse-item title="Does Instagram Video Downloader needs any money after some Downloads limit?" name="1">
+                    <div>this service is Totally Free and has no limit to download.</div>
+                  </el-collapse-item>
+                  <el-collapse-item title="Where my videos saved after download?" name="2">
+                    <div>
+                      <div class="panel-body">
+                        Videos usually saved under "Downloads" folder but you may use Save As Option and changed it to another one. However, you can check the download folder by following the below steps:
+                        <ul>
+                        <li><strong>Chrome:</strong>
+                        <ul>
+                        <li><strong>Windows:</strong> Press [<strong>CTRL + J</strong> ]</li>
+                        <li><strong>Mac:</strong> Press [<strong>Shift + Command + J</strong>]</li>
+                        </ul>
+                        </li>
+                        </ul>
+                        <ul>
+                        <li><strong>Firefox:</strong>
+                        <ul>
+                        <li><strong>Windows:</strong> Press [<strong>CTRL + J</strong> ]</li>
+                        <li><strong>Mac:</strong> Press [<strong>Command + J</strong>]</li>
+                        </ul>
+                        </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </el-collapse-item>
+                  <el-collapse-item title="Can I Save instagram live videos?" name="3">
+                    <div>You can't save instagram Live videos while streaming but you can download it after they finish streaming.</div>
+                  </el-collapse-item>
+                  <el-collapse-item title="Can I download Facebook videos?" name="4">
+                    <div>Sorry, now,We do not have this function</div>
+                  </el-collapse-item>
+                </el-collapse>
+            </div>
+        </div>
+        
+          
+      
+      
+      </article>
+      <footer  style="margin-top: 40px;">
+        <div class="well">
+          <center>
+          <p style="text-align: center;"><strong>Instagram Video &amp; Photo Downloader online</strong>
+          <br>
+          <a href="how-to-download-instagram-videos-steps.php">How to Download Instagram Videos &amp; Photos</a> | <a href="privacy-policy.php">Privacy Policy</a> | <a href="tos.php">Terms</a> |<a href="contact.php">Contact us</a> | <a href="about.php">About</a></p>
+          </center>
+          </div>
+      </footer>
     </div>
     
   </div>
@@ -150,21 +163,13 @@ import NavBar from '../components/nav-bar.vue'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import Web from 'reduce-loader!../components/Web.vue'
-import { Button } from 'element-ui';
-import { Collapse } from "element-ui";
-import { CollapseItem } from "element-ui";
-//import  "element-ui/lib/theme-chalk/collapse.css";
 
-import 'element-ui/lib/theme-chalk/icon.css';
-import 'element-ui/lib/theme-chalk/button.css';
-import  "element-ui/lib/theme-chalk/collapse.css";
-import  "element-ui/lib/theme-chalk/collapse-item.css";
 // import 'vant/lib/button/style/index.js';
 const axios = require('axios').default;
 import 'reduce-loader!./web'
 const AV = require('leancloud-storage')
 //const baseUrl = 'https://stg-insave.avosapps.us'
-const baseUrl = 'http://192.168.1.5:3000'
+const baseUrl = 'http://10.104.32.15:3000'
 AV.init({
   appId: 'pstrmVUajkWM5l0V5DTfIbRI-MdYXbMMI',
   appKey: 'UWRmg11QM4MrWUbvFEG0WGce'
@@ -195,9 +200,6 @@ export default Vue.extend({
     Footer,
     Web,
     NavBar,
-    'el-button':Button,
-    'el-collapse':Collapse,
-    'el-collapse-item':CollapseItem
   },
   created() {
     // login().then((userInfo) => {
@@ -220,6 +222,10 @@ export default Vue.extend({
   methods: {
       handleChange(){
 
+      },
+      showCheckbox(i,index){
+        this.$refs[`input_show_${i}_${index}`][0].style.display = 'block'
+        this.$refs[`label_show_${i}_${index}`][0].style.display = 'flex'
       },
       imgLoadSuccess () {
       console.log('imgLoadSuccess')
@@ -245,8 +251,24 @@ export default Vue.extend({
         method: 'GET',
         headers:{'Content-Type':'application/json'}
       })
+      let imgList = res.data.data.downloadUrl
       console.log('res.data.data',res.data.data)
-      this.imgList = res.data.data.downloadUrl
+      if(imgList.length > 0){
+        this.imgList = [imgList]
+        //  this.imgList = imgList.reduce((acm,item) => {
+        //   let lastEleArray = acm.pop() || [];
+        //   let newArray = []
+        //   if(lastEleArray.length < 3 ){
+        //     lastEleArray.push(item)
+        //     acm.push(lastEleArray)
+        //   }else{
+        //     newArray.push(item)
+        //     acm.push(lastEleArray)
+        //     acm.push(newArray)
+        //   }
+        //   return acm;
+        // },[])
+      }
     },
     async download () {
       let self = this
@@ -478,7 +500,7 @@ img{
   padding-right: 15px;
 }
 .intro-container {
-  padding-top: 64px;
+  // padding-top: 64px;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -616,34 +638,63 @@ img{
 
 .img-container{
   padding-top: 40px;
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  width: 100%;
-  flex-wrap: wrap;
+  display: block;
+  .img-row{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    // justify-content: space-between;
+  }
+  .image-slot{
+    min-width:380px;
+    min-height:380px;
+    color:#ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: rgb(192, 196, 204);
+    background: rgb(245, 247, 250);
+  }
   .h5-input{
     position: absolute;
   }
   .img-item{
-    flex-basis:50%;
+    flex-basis: 33%;
     position: relative;
-    max-width: 200px;
   }
+  .el-image{
+    padding: 10px;
+  }
+  // .img-item:first-child{
+  //   padding-left: 0px;
+  // }
+  // .img-item:last-child{
+  //   padding-right: 0px;
+  // }
 }
 input[type="checkbox"] {
   position: absolute;
   opacity: 0;
+  right: 0;
+    bottom: 0;
+    z-index: 30;
+    margin-right: 10px;
+    margin-bottom: 15px;
   cursor: pointer;
   & + label {
     display: flex;
     align-items: center;
     right: 0;
     bottom: 0;
+    z-index: 30;
+    margin-right: 10px;
+    margin-bottom: 15px;
     position: absolute;
     &::before {
       content: "";
-      width: 15px;
-      height: 15px;
+      width: 20px;
+      height: 20px;
       border: 1px solid darken(#ecf0f1, 25%);
       background: #ecf0f1;
       cursor: pointer;

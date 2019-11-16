@@ -4,7 +4,7 @@
 
 module.exports = {
     // 页面 origin，默认是 https://miniprogram.default
-    origin: 'https://static-oss.gg.net',
+    origin: 'https://static-oss.qutoutiao.net',
     // 入口页面路由，默认是 /
     entry: '/',
     // 页面路由，用于页面间跳转
