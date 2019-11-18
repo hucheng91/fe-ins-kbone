@@ -1,7 +1,15 @@
 <template>
   <div class="container">
     <canvas  id="canvas" style="width: 100%; height: 100%; position: absolute" postype="2d"></canvas>
-    <div style="max-width: 1200px;">
+    <div style="z-index: 31;position: fixed;
+    bottom: 100px;
+    right: 0;
+    width: 36px">
+    <a href="#disqus_thread">
+    <svg t="1573975571273" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2101" width="100%" height="100%"><path d="M850.879104 96.41591l-676.303067 0c-60.681034 0-110.049418 49.367361-110.049418 110.049418l0 446.200388c0 60.681034 49.367361 110.049418 110.049418 110.049418l90.307795 0L396.936381 931.129846c3.793396 4.838192 9.598612 7.66354 15.746636 7.66354s11.952216-2.825348 15.746636-7.66354l132.052548-168.414711 290.396903 0c60.681034 0 110.049418-49.367361 110.049418-110.049418L960.928522 206.465329C960.928522 145.784294 911.561162 96.41591 850.879104 96.41591zM920.91111 652.665717c0 38.614459-31.416524 70.030983-70.030983 70.030983L550.744419 722.6967c-6.147 0-11.952216 2.825348-15.745612 7.66354L412.683017 886.356107l-122.31579-155.995867c-3.792373-4.838192-9.597589-7.66354-15.745612-7.66354l-100.045577 0c-38.614459 0-70.030983-31.416524-70.030983-70.030983L104.545054 206.465329c0-38.614459 31.416524-70.030983 70.030983-70.030983l676.303067 0c38.614459 0 70.030983 31.416524 70.030983 70.030983L920.910087 652.665717zM272.621051 344.526731c-44.132126 0-80.035848 35.903721-80.035848 80.035848 0 44.132126 35.903721 80.036871 80.035848 80.036871s80.035848-35.904745 80.035848-80.036871C352.655875 380.430452 316.752154 344.526731 272.621051 344.526731zM272.621051 464.582037c-22.065552 0-40.017412-17.951861-40.017412-40.018436 0-22.065552 17.952884-40.017412 40.017412-40.017412 22.065552 0 40.017412 17.951861 40.017412 40.017412C312.638463 446.629153 294.686602 464.582037 272.621051 464.582037zM512.727571 344.526731c-44.132126 0-80.035848 35.903721-80.035848 80.035848 0 44.132126 35.903721 80.036871 80.035848 80.036871 44.132126 0 80.035848-35.904745 80.035848-80.036871C592.763418 380.430452 556.859697 344.526731 512.727571 344.526731zM512.727571 464.582037c-22.065552 0-40.017412-17.951861-40.017412-40.018436 0-22.065552 17.951861-40.017412 40.017412-40.017412 22.065552 0 40.017412 17.951861 40.017412 40.017412C552.746006 446.629153 534.793122 464.582037 512.727571 464.582037zM752.836137 344.526731c-44.131103 0-80.035848 35.903721-80.035848 80.035848 0 44.132126 35.904745 80.036871 80.035848 80.036871s80.035848-35.904745 80.035848-80.036871C832.871985 380.430452 796.96724 344.526731 752.836137 344.526731zM752.836137 464.582037c-22.066575 0-40.017412-17.951861-40.017412-40.018436 0-22.065552 17.951861-40.017412 40.017412-40.017412s40.017412 17.951861 40.017412 40.017412C792.853549 446.629153 774.902712 464.582037 752.836137 464.582037z" p-id="2102" fill="#ffffff"></path></svg>
+    </a>
+    </div>
+    <div style="max-width: 1200px;z-index: 30;">
       <nav-bar :left-arrow="true" >
         <template slot="title">
           <div style="color: #fff;font-size:25px">Igram</div>
@@ -16,7 +24,7 @@
               <div class="row" style="display:flex;">
                 <div class="input-container relative">
                     <span class="instagram-icon">
-                      <img  class="img" src="https://static-oss.qutoutiao.net/hucheng/icon2.png">
+                      <img  class="img" src="https://static-oss.tt.net/hucheng/icon2.png">
                     </span>
                     <input  class="input" v-model="linkUrl" name="fileURL" id="fileURL" placeholder="Paste Instagram link..."  type="text" />
                 </div>
@@ -24,11 +32,13 @@
               </div>
               <p>&nbsp;</p>
               <el-collapse-transition>
-                 <div class="img-container" v-if="imgList.length>0" >
+                <div class="img-container" v-if="imgList.length>0" >
+                  <div style="display: flex;justify-content: center;">
+                      <el-button type="primary" style="max-width: 375px" @click="download" >Download Select</el-button>
+                  </div> 
                   <div class="img-row" v-for="(rowList,i) in imgList" :key="i">
-                    
                     <div class="img-item"    v-for="(item,index) in rowList" :key="index">
-                    <input :id="`CSS_${index}`"  class="input-checkbox" :ref="`input_show_${i}_${index}`" type="checkbox" name="language" style="display:none"  />
+                    <input :id="`CSS_${index}`"  class="input-checkbox" :ref="`input_show_${i}_${index}`" type="checkbox" @change="checkboxChange(index,item,$event )"  style="display:none"  />
                       <label :for="`CSS_${index}`" :ref="`label_show_${i}_${index}`" style="display:none">
                         <svg
                           class="tick"
@@ -43,7 +53,18 @@
                           />
                         </svg>
                       </label>
-                      <el-image :src="item"  :fit="'contain'" @load="showCheckbox(i,index)" >
+                      <video controls  style="width:100%" @suspend="showCheckbox(i,index)">
+
+                        <source src="item"
+                                :type="mimeType">
+
+                        Sorry, your browser doesn't support embedded videos.
+                    </video>
+                      <el-image  v-if="!isVideo"
+                      :src="item" 
+                       :fit="'contain'" @load="showCheckbox(i,index)"
+                       :preview-src-list="imgList[0]"
+                        >
                         <div slot="placeholder" style="" class="image-slot">
                           loading<span class="dot">...</span>
                         </div>
@@ -140,15 +161,18 @@
       
       
       </article>
+       <div id="disqus_thread"></div>
       <footer  style="margin-top: 40px;">
         <div class="well">
           <center>
           <p style="text-align: center;"><strong>Instagram Video &amp; Photo Downloader online</strong>
           <br>
-          <a href="how-to-download-instagram-videos-steps.php">How to Download Instagram Videos &amp; Photos</a> | <a href="privacy-policy.php">Privacy Policy</a> | <a href="tos.php">Terms</a> |<a href="contact.php">Contact us</a> | <a href="about.php">About</a></p>
+          </p>
+          <!-- <a href="how-to-download-instagram-videos-steps.php">How to Download Instagram Videos &amp; Photos</a> | <a href="privacy-policy.php">Privacy Policy</a> | <a href="tos.php">Terms</a> |<a href="contact.php">Contact us</a> | <a href="about.php">About</a></p> -->
           </center>
           </div>
       </footer>
+      
     </div>
     
   </div>
@@ -158,6 +182,7 @@
 
 <script>
 import Vue from 'vue'
+import { saveAs } from 'file-saver';
 import login from '../common/user/login'
 import NavBar from '../components/nav-bar.vue'
 import Header from '../components/Header.vue'
@@ -169,7 +194,7 @@ const axios = require('axios').default;
 import 'reduce-loader!./web'
 const AV = require('leancloud-storage')
 //const baseUrl = 'https://stg-insave.avosapps.us'
-const baseUrl = 'http://10.104.32.15:3000'
+const baseUrl = 'http://localhost:3000'
 AV.init({
   appId: 'pstrmVUajkWM5l0V5DTfIbRI-MdYXbMMI',
   appKey: 'UWRmg11QM4MrWUbvFEG0WGce'
@@ -183,16 +208,20 @@ export default Vue.extend({
       count: 0,
       isLoading: false,
       linkUrl: 'https://www.instagram.com/p/B4kVW83JY6C/?utm_source=ig_web_button_share_sheet',
+      downLoadUrlList: [],
       button_text: '获取资源',
       imgList: [],
       loading:false,
       button_status: 1,
+      isVideo: false,
       button_const: {
         status_1: {value: 1, text: '获取资源'},
         status_2: {value: 2, text: '获取中...'},
         status_3: {value: 3, text: '下载'},
         status_4: {value: 3, text: '下载中...'}
-      }
+      },
+      fileName: null,
+      mimeType: null
     }
   },
   components: {
@@ -223,9 +252,18 @@ export default Vue.extend({
       handleChange(){
 
       },
+      checkboxChange(index,item,event){
+        if(event.target.checked){
+          this.downLoadUrlList.push(item)
+        }else{
+          this.downLoadUrlList.splice(index,1)
+        }
+      },
       showCheckbox(i,index){
-        this.$refs[`input_show_${i}_${index}`][0].style.display = 'block'
-        this.$refs[`label_show_${i}_${index}`][0].style.display = 'flex'
+        console.log(123)
+        this.$refs[`input_show_${i}_${index}`][0].style.display = 'block';
+        this.$refs[`label_show_${i}_${index}`][0].style.display = 'flex';
+        this.$refs[`input_show_${i}_${index}`][0].checked = true;
       },
       imgLoadSuccess () {
       console.log('imgLoadSuccess')
@@ -241,6 +279,7 @@ export default Vue.extend({
       this.button_status = this.button_const[`status_${status}`].value
     },
     async loadImg () {
+      this.loading = true;
       this.setButtonStatus(2)
       // if (!get('userInfo')) {
       //   let user = await User.loginWithWeapp({preferUnionId: true}).catch(console.error)
@@ -251,10 +290,16 @@ export default Vue.extend({
         method: 'GET',
         headers:{'Content-Type':'application/json'}
       })
+      this.loading = false;
+      this.setButtonStatus(1)
       let imgList = res.data.data.downloadUrl
+      this.isVideo = res.data.data.isVideo;
+      this.mimeType = res.data.data.mimeType;
       console.log('res.data.data',res.data.data)
       if(imgList.length > 0){
         this.imgList = [imgList]
+        this.downLoadUrlList = JSON.parse(JSON.stringify(imgList));
+        this.fileName = res.data.data.filename;
         //  this.imgList = imgList.reduce((acm,item) => {
         //   let lastEleArray = acm.pop() || [];
         //   let newArray = []
@@ -272,26 +317,44 @@ export default Vue.extend({
     },
     async download () {
       let self = this
+      const loading = this.$loading({
+          lock: true,
+          text: 'Downloading...',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+      const fileName = this.fileName.split(".")[0]
+      const type = this.fileName.split(".")[1]
       this.setButtonStatus(4)
-      wx.downloadFile({
-        url: `${baseUrl}/ins/single?url=${this.linkUrl}`,
-        fail: function (res) {
-          wx.showToast({title: '下载失败，联系下工程师吧'})
-        },
-        success: function (res) {
-          console.log('res_res', res)
-          wx.saveImageToPhotosAlbum({
-            filePath: res.tempFilePath,
-            success (result) {
-              console.log(result)
-              self.resetData()
-            },
-            fail (error) {
-              console.log(error)
-            }
-          })
-        }
+      this.downLoadUrlList.forEach((url,index) => {
+        setTimeout(() => {
+          saveAs(url,`${fileName}(${index+1}).${type}`)
+        },500)
+        
       })
+
+      setTimeout(() => {
+        loading.close()
+      },10000)
+      // wx.downloadFile({
+      //   url: `${baseUrl}/ins/single?url=${this.linkUrl}`,
+      //   fail: function (res) {
+      //     wx.showToast({title: '下载失败，联系下工程师吧'})
+      //   },
+      //   success: function (res) {
+      //     console.log('res_res', res)
+      //     wx.saveImageToPhotosAlbum({
+      //       filePath: res.tempFilePath,
+      //       success (result) {
+      //         console.log(result)
+      //         self.resetData()
+      //       },
+      //       fail (error) {
+      //         console.log(error)
+      //       }
+      //     })
+      //   }
+      // })
     },
     async buttonClick () {
       if (!this.linkUrl || this.linkUrl.length === 0) {
@@ -299,8 +362,7 @@ export default Vue.extend({
         return
       }
       const method_fn = {
-        1: this.loadImg,
-        3: this.download
+        1: this.loadImg
       }
       if (method_fn[this.button_status]) {
         method_fn[this.button_status]()
@@ -409,6 +471,9 @@ export default Vue.extend({
 body{
   width: 100%;
   margin: 0px;
+}
+.el-image-viewer__btn{
+color: #ffffff;
 }
 .well{
   min-height: 20px;
